@@ -12,3 +12,5 @@ class Callback(tf.keras.callbacks.Callback):
             print(f"\r{epoch}\t".expandtabs(4) + "."*(epoch % dots), end="")
 
 # Make sure to set verbose == 0
+
+#test commit
