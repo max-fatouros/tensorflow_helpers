@@ -3,7 +3,7 @@ Name: tensorflow-helper
 Version: 0.0.1
 Summary: helper methods for tensorflow
 Home-page: https://github.com/max-fatouros/tensorflow_helpers
-Author: Max Fatouors
+Author: Max Fatouros
 License: UNKNOWN
 Platform: UNKNOWN
 Requires-Python: >=3.6
