@@ -1,7 +1,0 @@
-README.txt
-pyproject.toml
-setup.py
-src/tensorflow_helper.egg-info/PKG-INFO
-src/tensorflow_helper.egg-info/SOURCES.txt
-src/tensorflow_helper.egg-info/dependency_links.txt
-src/tensorflow_helper.egg-info/top_level.txt
