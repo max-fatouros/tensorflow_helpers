@@ -29,21 +29,34 @@ class EpochDots(tf.keras.callbacks.Callback):
 
 
 class EarlyStopping(tf.keras.callbacks.Callback):
-    def __init__(self, accuracy, val_accuracy):
+    """Stops training at the threshold values you provide"""
+    def __init__(self, accuracy=None, val_accuracy=None, loss=None, mae=None):
         super().__init__()
-        self.accuracy = accuracy
-        self.val_accuracy = val_accuracy
+        self.stop_at = {}
+
+        if accuracy is not None:
+            self.stop_at['accuracy'] = accuracy
+
+        if val_accuracy is not None:
+            self.stop_at['val_accuracy'] = val_accuracy
+
+        if loss is not None:
+            self.stop_at['loss'] = loss
+
+        if mae is not None:
+            self.stop_at['mae'] = mae
 
     def on_epoch_end(self, epoch, logs={}):
-        if (logs.get('accuracy') is not None and logs.get('accuracy') >= self.accuracy and
-                logs.get('val_accuracy') is not None and logs.get('val_accuracy') >= self.val_accuracy):
+        metrics = logs.keys() & self.stop_at.keys()
+        stop_training = True
+        for metric in metrics:
+            if metric in ['mae', 'mse', 'loss']:
+                if logs.get(metric) >= self.stop_at.get(metric):
+                    stop_training = False
+            else:
+                if logs.get(metric) <= self.stop_at.get(metric):
+                    stop_training = False
 
-            if (logs.get('accuracy') and logs.get('val_accuracy')) is not None:
-                print(f"\nEnding training with an accuracy of {logs.get('accuracy')} "
-                      f"and a val_accuracy of {logs.get('val_accuracy')}")
-            elif logs.get('accuracy') is not None:
-                print(f"\nEnding training with an accuracy of {logs.get('accuracy')}")
-            elif logs.get('val_accuracy') is not None:
-                print(f"\nEnding training with a val_accuracy of {logs.get('val_accuracy')}")
-
-            self.model.stop_training = True
+        if stop_training:
+            print("\nStopping training at", logs)
+        self.model.stop_training = stop_training
