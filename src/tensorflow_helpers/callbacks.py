@@ -1,12 +1,12 @@
 import tensorflow as tf
 
 class EpochDots(tf.keras.callbacks.Callback):
-    """makes 'model.fit' print dots at each epoch and print the
+    """Makes 'model.fit' print dots at each epoch and print the
     current epoch number in real time
 
-    eg.\n
-    5   ..... \n
-    7   ..
+    Eg.\n
+    10   .......... \n
+    14   ....
 
     NOTE: Make sure to set verbose == 0
     """
@@ -19,9 +19,10 @@ class EpochDots(tf.keras.callbacks.Callback):
         super().__init__()
         self.dots = dots
 
-    def on_epoch_end(self, epoch, logs=None):
+    def on_epoch_end(self, epoch, logs={}):
         epoch = epoch + 1  # epochs start counting at 0 for computer, this adds 1 for human
         if epoch % self.dots == 0:
-            print(f"\r{epoch}\t".expandtabs(4) + "."*self.dots, end="\n")
+            print(f"\r{epoch}\t".expandtabs(4) + "."*self.dots, f"Loss: {logs['loss']}", end="\n")
         else:
             print(f"\r{epoch}\t".expandtabs(4) + "."*(epoch % self.dots), end="")
+
