@@ -21,7 +21,7 @@ class EpochDots(tf.keras.callbacks.Callback):
 
     def on_epoch_end(self, epoch, logs=None):
         epoch = epoch + 1  # epochs start counting at 0 for computer, this adds 1 for human
-        if epoch % dots == 0:
+        if epoch % self.dots == 0:
             print(f"\r{epoch}\t".expandtabs(4) + "."*self.dots, end="\n")
         else:
             print(f"\r{epoch}\t".expandtabs(4) + "."*(epoch % self.dots), end="")
